@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kopi Lokal — Frontend Final Project</title>
+  <meta name="description" content="Website katalog kopi lokal — responsive, semantic HTML, grid + flexbox, deploy-ready." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#c87b3c;
+      --glass: rgba(255,255,255,0.04);
+      --max-width:1200px;
+      --radius:12px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#071021 0%, #0f1724 100%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+      padding:24px 16px;
+      display:flex;
+      justify-content:center;
+    }
+    .container{width:100%;max-width:var(--max-width)}
+
+    /* NAVBAR */
+    header.site-header{background:transparent;padding:8px 0;position:sticky;top:0;z-index:40}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#a85b2b);display:inline-block}
+    .brand h1{font-size:18px;margin:0}
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{color:var(--muted);text-decoration:none;padding:8px;border-radius:8px}
+    nav.primary a:hover{color:#fff;background:var(--glass)}
+    .cta{background:var(--accent);color:#fff;padding:8px 12px;border-radius:10px;text-decoration:none}
+
+    /* hamburger */
+    .hamburger{display:none;background:transparent;border:0;color:var(--muted)}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:center;margin:28px 0}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:28px;border-radius:var(--radius);box-shadow:0 4px 20px rgba(0,0,0,0.6)}
+    .hero h2{font-size:32px;margin:0 0 12px}
+    .hero p{color:var(--muted);margin:0 0 16px}
+    .hero .actions{display:flex;gap:12px}
+
+    .hero-visual{border-radius:12px;overflow:hidden;height:100%;min-height:260px;display:flex;align-items:center;justify-content:center}
+    .hero-visual img{width:100%;height:100%;object-fit:cover;display:block}
+
+    /* GRID: katalog */
+    section.catalog{margin:28px 0}
+    .catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--card);padding:14px;border-radius:10px;display:flex;flex-direction:column;gap:12px}
+    .card figure{margin:0;overflow:hidden;border-radius:8px}
+    .card img{width:100%;height:180px;object-fit:cover;display:block}
+    .card h3{margin:0;font-size:16px}
+    .card .meta{color:var(--muted);font-size:13px}
+    .card .price{margin-top:auto;font-weight:600}
+
+    /* ABOUT: flexbox example */
+    .about{display:flex;gap:20px;align-items:center}
+    .about .text{flex:1}
+    .about .stats{display:flex;flex-direction:column;gap:12px;width:260px}
+    .stat{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:8px;text-align:center}
+
+    /* CONTACT */
+    .contact{display:grid;grid-template-columns:1fr 320px;gap:18px}
+    form{display:flex;flex-direction:column;gap:10px}
+    input,textarea{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    button.primary{background:var(--accent);border:0;padding:10px;border-radius:8px;color:#fff}
+
+    /* FOOTER */
+    footer{margin-top:36px;padding:18px 0;border-top:1px solid rgba(255,255,255,0.03);color:var(--muted);font-size:14px}
+
+    /* RESPONSIVE */
+    @media (max-width:1024px){
+      .hero{grid-template-columns:1fr 360px}
+      .catalog-grid{grid-template-columns:repeat(2,1fr)}
+      .about{flex-direction:column}
+      .contact{grid-template-columns:1fr}
+    }
+    @media (max-width:720px){
+      body{padding:16px}
+      .hamburger{display:inline-block}
+      nav.primary{display:none;position:absolute;top:68px;right:16px;background:rgba(7,12,18,0.98);padding:12px;border-radius:10px;flex-direction:column;min-width:180px}
+      nav.primary.show{display:flex}
+      .hero{grid-template-columns:1fr;gap:14px}
+      .hero-visual{min-height:180px}
+      .catalog-grid{grid-template-columns:1fr}
+    }
+
+    /* small aesthetic tweaks */
+    a{transition:all .18s ease}
+    .muted{color:var(--muted)}
+    .sublabel{font-size:13px;color:var(--muted)}
+    .tag{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:999px;font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <div class="nav">
+        <div class="brand">
+          <span class="logo" aria-hidden="true"></span>
+          <h1>KopiLokal</h1>
+        </div>
+
+        <nav class="primary" aria-label="Primary">
+          <a href="#home">Home</a>
+          <a href="#catalog">Katalog</a>
+          <a href="#about">Tentang</a>
+          <a href="#contact">Kontak</a>
+          <a class="cta" href="#buy">Beli Sekarang</a>
+        </nav>
+
+        <button class="hamburger" aria-label="Toggle menu" id="hamburger">☰</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section id="home" class="hero" aria-labelledby="hero-title">
+        <div class="hero-card">
+          <h2 id="hero-title">Cicipi Kopi Nusantara — Rasa Asli Dari Petani Lokal</h2>
+          <p>Kurasi kopi single-origin, roasting lokal, pengiriman cepat. Pilih kopi favoritmu berdasarkan asal, profil rasa, dan tingkat roasting.</p>
+          <div class="actions">
+            <a class="cta" href="#catalog">Lihat Katalog</a>
+            <a href="#about" class="muted">Kenapa Kopi Lokal?</a>
+          </div>
+
+          <ul class="sublabel" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <li class="tag">Single-origin</li>
+            <li class="tag">Roasted-to-order</li>
+            <li class="tag">Gratis ongkos kirim 100rb+</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=9c2f8a2c6f1f7c5f8b3b6e8b1f8f5eae" alt="secangkir kopi dengan latar meja kayu" />
+        </div>
+      </section>
+
+      <!-- CATALOG (GRID) -->
+      <section id="catalog" class="catalog" aria-labelledby="catalog-title">
+        <h2 id="catalog-title">Katalog Kopi</h2>
+        <p class="sublabel">Beberapa pilihan kopi unggulan dari berbagai daerah di Indonesia.</p>
+
+        <div class="catalog-grid" role="list">
+          <!-- card 1 -->
+          <article class="card" role="listitem">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=7b1b9f3c4c3c0b4e6a1a0c9d1f4a0e8b" alt="biji kopi Aceh" />
+            </figure>
+            <h3>Gayo Aceh — Light Roast</h3>
+            <div class="meta">Profil: Floral, Citrus · Altitude 1200m</div>
+            <div class="price">Rp 85.000 / 250g</div>
+          </article>
+
+          <!-- card 2 -->
+          <article class="card" role="listitem">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=9c2f8a2c6f1f7c5f8b3b6e8b1f8f5eae" alt="kopi Toraja" />
+            </figure>
+            <h3>Toraja — Medium Roast</h3>
+            <div class="meta">Profil: Cocoa, Earthy · Altitude 1400m</div>
+            <div class="price">Rp 75.000 / 250g</div>
+          </article>
+
+          <!-- card 3 -->
+          <article class="card" role="listitem">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1541447272780-5e7c7d769aee?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=abc123def4567890abc123def4567890" alt="biji kopi Bali" />
+            </figure>
+            <h3>Kintamani — Dark Roast</h3>
+            <div class="meta">Profil: Spicy, Full-body · Altitude 1000m</div>
+            <div class="price">Rp 95.000 / 250g</div>
+          </article>
+
+          <!-- card 4 -->
+          <article class="card" role="listitem">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=ff22a2b3c4d5e6f7890a1b2c3d4e5f6a" alt="kopi sumatera" />
+            </figure>
+            <h3>Sumatera Mandheling</h3>
+            <div class="meta">Profil: Chocolate, Low acidity</div>
+            <div class="price">Rp 80.000 / 250g</div>
+          </article>
+
+          <!-- card 5 -->
+          <article class="card" role="listitem">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1445077100181-a33ef8b7f4b5?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=deadc0ffee1234567890abcdef123456" alt="roasting kopi" />
+            </figure>
+            <h3>Robusta Lampung</h3>
+            <div class="meta">Profil: Bold, Bitter</div>
+            <div class="price">Rp 55.000 / 250g</div>
+          </article>
+
+          <!-- card 6 -->
+          <article class="card" role="listitem">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1505576391880-65f3b9d6a3c1?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=fa1b2c3d4e5f67890abc1234567890de" alt="espresso" />
+            </figure>
+            <h3>Espresso Blend</h3>
+            <div class="meta">Profil: Caramel, Nutty</div>
+            <div class="price">Rp 65.000 / 250g</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ABOUT (flexbox) -->
+      <section id="about" class="about" aria-labelledby="about-title">
+        <div class="text">
+          <h2 id="about-title">Kenapa Memilih Kopi Lokal?</h2>
+          <p class="sublabel">Kopi lokal mendukung petani, menjaga keaslian profil rasa, 
+            dan mengurangi jejak karbon pengiriman. Kami bekerja langsung dengan cooperative 
+            roasters untuk memastikan transparansi dan kualitas.</p>
+        </div>
+
+        <aside class="stats" aria-label="Statistik singkat">
+          <div class="stat"><strong>120+</strong><div class="sublabel">Varian Kopi</div></div>
+          <div class="stat"><strong>45</strong><div class="sublabel">Petani Mitra</div></div>
+          <div class="stat"><strong>4.8 ★</strong><div class="sublabel">Rating Pelanggan</div></div>
+        </aside>
+      </section>
+
+      <!-- CONTACT (form & map embed) -->
+      <section id="contact" class="contact" aria-labelledby="contact-title">
+        <div>
+          <h2 id="contact-title">Hubungi Kami</h2>
+          <p class="sublabel">Punya pertanyaan? Isi formulir berikut atau kunjungi halaman toko kami.</p>
+
+          <form id="contactForm" action="#" onsubmit="handleSubmit(event)">
+            <label class="sublabel">Nama
+              <input type="text" name="name" required placeholder="Nama lengkap" />
+            </label>
+            <label class="sublabel">Email
+              <input type="email" name="email" required placeholder="email@contoh.com" />
+            </label>
+            <label class="sublabel">Pesan
+              <textarea name="message" rows="4" placeholder="Tulis pesan..." required></textarea>
+            </label>
+            <button class="primary" type="submit">Kirim Pesan</button>
+          </form>
+        </div>
+
+        <aside>
+          <h3 class="sublabel">Lokasi</h3>
+          <p class="sublabel">Kami melayani seluruh Indonesia lewat kurir terpercaya.</p>
+          <!-- simple map embed (link) -->
+          <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer" class="sublabel">Buka peta</a>
+        </aside>
+      </section>
+
+    </main>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <strong>KopiLokal</strong>
+          <div class="sublabel">© "2025" • Dukungan petani lokal</div>
+        </div>
+        <nav aria-label="footer-links" style="display:flex;gap:12px">
+          <a href="#catalog" class="sublabel">Produk</a>
+          <a href="#about" class="sublabel">Tentang</a>
+          <a href="#contact" class="sublabel">Kontak</a>
+        </nav>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Small JS untuk toggle hamburger + simple form handling
+    (function(){
+      const ham = document.getElementById('hamburger');
+      const nav = document.querySelector('nav.primary');
+      ham.addEventListener('click', ()=>{ nav.classList.toggle('show'); });
+
+      window.handleSubmit = function(e){
+        e.preventDefault();
+        const form = e.target;
+        // simple client-side validation & feedback
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const msg = form.message.value.trim();
+        if(!name||!email||!msg){
+          alert('Mohon lengkapi semua field.');
+          return;
+        }
+        // simulate submit
+        alert('Terima kasih, pesan Anda telah terkirim — ini simulasi (tanpa backend).');
+        form.reset();
+      }
+    })();
+  </script>
+</body>
+</html>
